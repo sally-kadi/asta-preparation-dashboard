@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Asta's Preparation Dashboard
+
+A responsive preparation dashboard built with Next.js, TypeScript, and Tailwind CSS.
+
+## Features
+
+- View three preparation tasks.
+- Mark tasks as complete or undo completion.
+- Track completed tasks and overall progress percentage.
+- View task priorities and preparation status.
+- Responsive layout for desktop and mobile.
+
+## Preparation Tasks
+
+1. **Sword Control** — Practise precise anti-magic sword movements. (High)
+2. **Physical Endurance** — Complete a focused strength and stamina session. (Medium)
+3. **Team Coordination** — Review a preparation plan with the Black Bulls. (High)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Progress Calculation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Progress is calculated from completed tasks:
 
-## Learn More
+- 0 of 3 tasks = 0%
+- 1 of 3 tasks = 33%
+- 2 of 3 tasks = 67%
+- 3 of 3 tasks = 100%
 
-To learn more about Next.js, take a look at the following resources:
+Progress represents preparation completion, not the probability of winning.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Task completion is stored in the current page session and resets when the page is refreshed.
