@@ -116,3 +116,31 @@ Before implementation is considered complete:
 
 ## 10. Out of Scope
 The design does not include authentication, database features, additional pages, task creation or deletion, chatbots, multiplayer features, or combat simulation.
+## 11. Design Iteration and Refinement
+
+The initial design established the dark fantasy direction and the main dashboard sections. During refinement, the layout was reviewed for clarity and responsiveness, with particular attention to the task cards and the mobile experience.
+
+The refined design keeps the three preparation tasks easy to scan and places the progress summary where users can quickly understand their overall preparation status. On mobile, the content is arranged vertically to fit narrow screens and reduce horizontal scrolling.
+
+The design uses the following visual decisions:
+
+- **Background:** Near-black and charcoal tones to support the dark fantasy theme.
+- **Cards and panels:** Dark gray surfaces with subtle borders to separate sections.
+- **Accent color:** Purple for highlights and progress indicators.
+- **Typography:** High-contrast light text for headings and primary content, with muted gray for secondary text.
+- **Spacing:** Consistent gaps and padding between sections and task cards to keep the layout readable.
+- **Responsive layout:** A clear desktop layout and vertically stacked content on mobile.
+
+Exact font names, color values, and spacing measurements should be recorded from the implemented CSS if required, rather than guessed.
+
+## 12. Design Review
+
+The design was reviewed against the PRD to confirm that it includes the threat brief, progress summary, exactly three preparation tasks, task priorities, and completion controls.
+
+The mobile layout was considered during design to help keep content readable at narrow viewport widths.
+
+The Stitch MCP connection was not verified, so the design was used as a visual reference rather than through a confirmed live MCP integration.
+
+## 13. Evidence
+
+The `docs/evidence/` folder is intended to contain real screenshots of the initial Stitch design, refined Stitch design, and working dashboard. Each screenshot must contain actual image data and should be checked before submission.

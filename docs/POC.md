@@ -51,10 +51,30 @@ The percentage is calculated as:
 
 `Math.round((completedTasks / totalTasks) * 100)`
 
-## Result and Evidence
+## Actual Test Results
 
-The tests must be performed on the implemented dashboard. Record the actual results and add screenshots to `docs/evidence/`.
+The dashboard was tested manually in the local browser.
 
-**Status:** Pending implementation and testing.
+| Test | Expected Result | Observed Result |
+|---|---|---|
+| Initial page load | 0 of 3 tasks, 0% | Passed — all tasks started incomplete |
+| Complete one task | 1 of 3, 33% | Passed — progress showed 33% |
+| Complete all three tasks | 3 of 3, 100% | Passed — progress showed 100% |
+| Undo one completed task | 2 of 3, 67% | Passed — progress returned to 67% |
+| Refresh the page | All tasks reset to incomplete, 0% | Passed — progress returned to 0% |
 
-Do not mark a test as passed until it has been performed and its result verified.
+### Additional Checks
+
+- Repeated toggling: verify that completing and undoing tasks does not produce duplicate counts or percentages outside the 0–100% range.
+- Observation: task progress is calculated from the completed task IDs, and refreshing resets the state because it is not persisted.
+- Decision: keep the MVP simple and use in-memory React state, as persistent storage is outside the project scope.
+
+### Evidence
+
+Screenshots of the working dashboard and design iterations are stored in `docs/evidence/`.
+
+### Conclusion
+
+The main completion, undo, progress calculation, and refresh-reset behaviours were manually checked. The repeated-toggle check still needs to be recorded after a dedicated test.
+
+**Status:** Core manual tests passed; repeated-toggle verification remains pending.
