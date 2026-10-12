@@ -46,3 +46,15 @@ Progress represents preparation completion, not the probability of winning.
 ## Notes
 
 Task completion is stored in the current page session and resets when the page is refreshed.
+## Documentation
+
+- [Product Requirements (PRD)](docs/PRD.md)
+- [Design Documentation](docs/DESIGN.md)
+- [MCP Integration](docs/MCP.md)
+- [Proof of Concept and Test Results](docs/POC.md)
+- [Review and Reflection](docs/REVIEW.md)
+- [Evidence Screenshots](docs/evidence/)
+
+## Author
+
+**Sally Kadi**
