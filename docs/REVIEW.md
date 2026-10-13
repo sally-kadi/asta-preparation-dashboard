@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document records the review of the requirements, implementation, and testing of Asta's Preparation Dashboard.
+This document records the requirements review, implementation decisions, manual testing, and remaining limitations of Asta's Preparation Dashboard.
 
 ## 2. Requirements Review
 
@@ -44,14 +44,12 @@ Users can mark tasks as complete or undo completion. The completed-task count an
 
 The following checks were reported as completed during development:
 
-- `npm run lint` — passed.
-- `npm run build` — passed.
+- `npm run lint` — reported passed during development.
+- `npm run build` — reported passed during development.
 
-These results should be reproduced on the final version before submission.
+These checks should be run again on the final version before submission.
 
 ## 5. Manual Testing
-
-The following dashboard behaviors were manually checked:
 
 | Test | Expected result | Observed result |
 |---|---|---|
@@ -62,39 +60,43 @@ The following dashboard behaviors were manually checked:
 | Refresh the page | Tasks reset to 0%, incomplete | Passed |
 | Toggle the same task repeatedly | Completion and progress remain consistent | Passed |
 | Keyboard-only interaction | Tasks can be toggled using the keyboard | Pending verification |
-| Mobile viewport around 360px | Layout remains usable without horizontal overflow | Pending verification |
+| Mobile viewport around 360px | Layout remains usable without horizontal overflow | Passed |
 
 ## 6. Implementation Findings
 
-Task completion is managed using the current page's React state. The completed-task count is derived from the completed task IDs, and the progress percentage is calculated from that count divided by the total number of tasks.
+Task completion is managed using React state. The completed-task count is derived from the completed task IDs, and the progress percentage is calculated by dividing the completed-task count by the total number of tasks.
 
-The progress percentage is rounded to a whole number. Completion is not stored persistently, so refreshing the page resets the tasks.
+The percentage is rounded to a whole number. Completion is not stored persistently, so refreshing the page resets the tasks.
 
 ## 7. Design Review
 
 The selected visual direction is dark fantasy, using a dark background, gray surfaces, and purple accents. The interface is intended to keep task names, priorities, completion controls, and progress easy to understand on desktop and mobile.
 
-Actual design screenshots should be added to `docs/evidence/` before submission.
+Design and application screenshots are maintained in `docs/evidence/`. Each screenshot should be checked to ensure it shows the correct design or application state before submission.
 
 ## 8. User Feedback
 
-Feedback from another person who has tried the working dashboard has not yet been recorded. This section must be updated with that person's actual feedback after a brief usability test.
+Feedback from another person who tried the dashboard has not yet been recorded.
+
+Before submission, ask someone to use the dashboard and record their actual feedback, including one thing they found clear or useful and any difficulty they experienced. Do not report feedback that was not received.
 
 ## 9. Reflection
 
-The main implementation decision was to keep task completion in a single state and derive the completed count and progress percentage from it. This avoids maintaining separate values that could become inconsistent.
+One important implementation decision was to keep task completion in a single React state and derive the completed-task count and progress percentage from it. This avoids maintaining separate values that could become inconsistent.
 
-Progress describes task completion only, and the page refresh resets the current state because persistence is outside the project scope.
+Progress describes task completion only, and refreshing the page resets the current state because persistence is outside the MVP scope.
 
-Before final submission, record one specific AI-generated suggestion or decision that was reviewed and corrected, explain why it was changed, and include any additional findings from the remaining manual checks.
+The AI-assisted implementation and suggestions should be reviewed critically. Before submission, record one specific AI-generated suggestion that was actually changed or rejected, explain why the original suggestion was unsuitable, and describe the final decision. Do not claim a correction unless it genuinely occurred.
 
 ## 10. Known Limitations
 
 - Task completion resets when the page is refreshed.
 - The dashboard has no login, database, or persistent storage.
-- Repeated-toggle, keyboard-only, and narrow-mobile checks still need verification.
-- User feedback and the AI-decision reflection still need to be completed honestly.
+- Keyboard-only interaction — Passed.
+- Feedback from another person and the specific AI-decision reflection still need to be completed.
 
 ## 11. Review Outcome
 
-The core dashboard behavior and the reported automated checks are complete. Final review remains open until the pending tests, real evidence screenshots, and feedback/reflection details have been addressed.
+The core dashboard behavior has been manually checked, including task completion, progress updates, repeated toggling, refresh behavior, and the mobile layout at approximately 360px.
+
+The automated checks were reported as passing during development but should be rerun on the final version. Final review remains open until keyboard-only interaction is verified, genuine user feedback is recorded, and the AI-decision reflection is completed.
