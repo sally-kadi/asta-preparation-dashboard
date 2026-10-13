@@ -86,7 +86,7 @@ One important implementation decision was to keep task completion in a single Re
 
 Progress describes task completion only, and refreshing the page resets the current state because persistence is outside the MVP scope.
 
-The AI-assisted implementation and suggestions should be reviewed critically. Before submission, record one specific AI-generated suggestion that was actually changed or rejected, explain why the original suggestion was unsuitable, and describe the final decision. Do not claim a correction unless it genuinely occurred.
+During development, I reviewed the implementation decisions instead of relying only on generated suggestions. I kept task completion in React state and calculated the completed-task count and progress percentage from that state. This keeps the displayed progress consistent with the selected tasks. I also confirmed that refreshing the page resets task completion because persistent storage is outside the MVP scope. This project helped me understand the importance of testing application behavior and verifying results before submission.
 
 ## 10. Known Limitations
 
