@@ -60,7 +60,7 @@ The following dashboard behaviors were manually checked:
 | Complete all tasks | 3 of 3 tasks, 100% | Passed |
 | Undo one completed task | 2 of 3 tasks, 67% | Passed |
 | Refresh the page | Tasks reset to 0%, incomplete | Passed |
-| Toggle the same task repeatedly | Completion and progress remain consistent | Pending verification |
+| Toggle the same task repeatedly | Completion and progress remain consistent | Passed |
 | Keyboard-only interaction | Tasks can be toggled using the keyboard | Pending verification |
 | Mobile viewport around 360px | Layout remains usable without horizontal overflow | Pending verification |
 
