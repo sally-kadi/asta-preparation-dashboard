@@ -129,7 +129,7 @@ export default function Home() {
           </p>
 
           <div
-            className="mt-3 h-3 overflow-hidden rounded-full bg-gray-700"
+            className="mt-3 h-4 overflow-hidden rounded-full border border-purple-400/50 bg-gray-800"
             role="progressbar"
             aria-label="Preparation progress"
             aria-valuemin={0}
@@ -205,7 +205,13 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold">{task.title}</h3>
+                  <h3
+                    className={`text-lg font-bold ${
+                      isCompleted ? "text-emerald-200 line-through" : ""
+                    }`}
+                  >
+                    {task.title}
+                  </h3>
                   <p className="mt-2 min-h-12 text-sm leading-6 text-gray-300">
                     {task.description}
                   </p>
@@ -303,7 +309,7 @@ export default function Home() {
                 </span>
               </div>
               <div
-                className="h-5 overflow-hidden rounded-full bg-gray-700"
+                className="h-5 overflow-hidden rounded-full border border-emerald-400/40 bg-gray-800"
                 role="img"
                 aria-label={`${completedCount} completed tasks out of ${totalTasks}`}
               >
@@ -322,7 +328,7 @@ export default function Home() {
                 </span>
               </div>
               <div
-                className="h-5 overflow-hidden rounded-full bg-gray-700"
+                className="h-5 overflow-hidden rounded-full border border-amber-300/40 bg-gray-800"
                 role="img"
                 aria-label={`${incompleteCount} incomplete tasks out of ${totalTasks}`}
               >

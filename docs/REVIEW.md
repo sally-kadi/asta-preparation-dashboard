@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document records the requirements review, implementation decisions, manual testing, and remaining limitations of Asta's Preparation Dashboard.
+This document records the requirements review, implementation decisions, manual testing, feedback, and remaining limitations of Asta's Preparation Dashboard.
 
 ## 2. Requirements Review
 
@@ -42,12 +42,12 @@ Users can mark tasks as complete or undo completion. The completed-task count an
 
 ## 4. Automated Checks
 
-The following checks were reported as completed during development:
+During development, the following checks were reported as passing:
 
 - `npm run lint` — reported passed during development.
-- `npm run build` — reported passed during development.
+- `npm run build` — production build completed successfully in the latest recorded check.
 
-These checks should be run again on the final version before submission.
+The lint and build commands should be run again after the final code changes and before submission.
 
 ## 5. Manual Testing
 
@@ -59,44 +59,90 @@ These checks should be run again on the final version before submission.
 | Undo one completed task | 2 of 3 tasks, 67% | Passed |
 | Refresh the page | Tasks reset to 0%, incomplete | Passed |
 | Toggle the same task repeatedly | Completion and progress remain consistent | Passed |
-| Keyboard-only interaction | Tasks can be toggled using the keyboard | Pending verification |
+| Keyboard-only interaction | Tasks can be toggled using the keyboard | Verify again before submission |
 | Mobile viewport around 360px | Layout remains usable without horizontal overflow | Passed |
+| Completed task visual feedback | Completed card becomes green-tinted and its title is struck through | Verified after the UI update |
+| Progress bar at 0% | Border and background remain visible | Verify visually before submission |
 
 ## 6. Implementation Findings
 
 Task completion is managed using React state. The completed-task count is derived from the completed task IDs, and the progress percentage is calculated by dividing the completed-task count by the total number of tasks.
 
-The percentage is rounded to a whole number. Completion is not stored persistently, so refreshing the page resets the tasks.
+The percentage is rounded to a whole number. With three tasks, the progress values are 0%, 33%, 67%, and 100%.
+
+Completion is not stored persistently, so refreshing the page resets the tasks.
 
 ## 7. Design Review
 
 The selected visual direction is dark fantasy, using a dark background, gray surfaces, and purple accents. The interface is intended to keep task names, priorities, completion controls, and progress easy to understand on desktop and mobile.
 
-Design and application screenshots are maintained in `docs/evidence/`. Each screenshot should be checked to ensure it shows the correct design or application state before submission.
+The reviewer suggested making the progress bar more visible at 0%, providing visual feedback when tasks are completed, and improving readability.
+
+The progress bar was updated with a subtle border and a visible background. Completed task cards use a green-tinted style, and completed task titles use strike-through text. The task cards, summary table, and completion overview also organize information into clearer sections.
+
+Design and application screenshots are maintained in `docs/evidence/`. Screenshots should be checked to ensure they show the correct design or application state before submission.
 
 ## 8. User Feedback
 
-Feedback from another person who tried the dashboard has not yet been recorded.
+Feedback received from another person described the task-tracking feature as clear and straightforward, helping users check their progress and complete tasks without unnecessary difficulty.
 
-Before submission, ask someone to use the dashboard and record their actual feedback, including one thing they found clear or useful and any difficulty they experienced. Do not report feedback that was not received.
+The reviewer suggested three visual improvements:
+
+- **Progress bar:** Add a subtle border or faint background fill so the bar remains visible at 0%.
+- **Interactive feedback:** Add visual feedback, such as green highlighting or strike-through text, when a task is marked complete.
+- **Readability:** Break down dense paragraphs into bullet points for quicker scanning.
+
+### Improvements Made
+
+The progress bar now has a subtle border and a visible background. Completed task cards change to a green-tinted style, and completed task titles use strike-through text.
+
+The dashboard also presents task information through separate task cards, a summary table, and a completion overview.
 
 ## 9. Reflection
 
-One important implementation decision was to keep task completion in a single React state and derive the completed-task count and progress percentage from it. This avoids maintaining separate values that could become inconsistent.
+### What decision did the PRD help prevent?
 
-Progress describes task completion only, and refreshing the page resets the current state because persistence is outside the MVP scope.
+The PRD helped keep the project focused on the core requirements: three predefined tasks, completion toggles, and calculated progress. Adding unnecessary features such as login, a database, or task creation would have expanded the MVP beyond its intended scope.
 
-During development, I reviewed the implementation decisions instead of relying only on generated suggestions. I kept task completion in React state and calculated the completed-task count and progress percentage from that state. This keeps the displayed progress consistent with the selected tasks. I also confirmed that refreshing the page resets task completion because persistent storage is outside the MVP scope. This project helped me understand the importance of testing application behavior and verifying results before submission.
+### What did the POC test, and what did it not prove?
+
+The POC was intended to investigate a focused feasibility question before committing to the implementation. Its exact result and evidence should be checked against `POC.md`; a successful experiment does not prove that every part of the final application is correct.
+
+### Why is the MVP useful?
+
+The MVP provides a simple way to see the three preparation tasks, mark them complete, and understand progress at a glance without unnecessary complexity.
+
+### What was the MCP outcome?
+
+The MCP outcome should match the actual connection and tool-call evidence documented in `MCP.md`. If the connection was blocked, the documented fallback should explain how development continued without claiming a successful MCP connection.
+
+### What AI-generated decision did I correct or review?
+
+I reviewed suggestions against the assignment requirements instead of accepting every suggestion automatically. I kept task completion in React state and calculated the count and percentage from that state so the displayed progress stays consistent with the selected tasks.
+
+I also used reviewer feedback to improve the progress bar's visibility and the visual feedback for completed tasks.
+
+### How is progress calculated?
+
+The application divides the number of completed tasks by the total number of tasks and multiplies by 100. With three tasks, completing one gives approximately 33%, completing two gives approximately 67%, and completing all three gives 100%.
+
+### What responsibility remained with me when using AI tools?
+
+I remained responsible for checking the generated code, running the application, testing task completion and undo behavior, checking the mobile layout, reviewing accessibility, and verifying that the documentation accurately describes the actual implementation and test results.
 
 ## 10. Known Limitations
 
 - Task completion resets when the page is refreshed.
 - The dashboard has no login, database, or persistent storage.
-- Keyboard-only interaction — Passed.
-- Feedback from another person and the specific AI-decision reflection still need to be completed.
+- Keyboard-only interaction must be verified again before submission.
+- The progress bar's appearance at 0% must be checked visually.
+- The POC and MCP documentation must accurately reflect their actual results and evidence.
+- Feedback and reflections should describe only what actually happened during review and testing.
 
 ## 11. Review Outcome
 
 The core dashboard behavior has been manually checked, including task completion, progress updates, repeated toggling, refresh behavior, and the mobile layout at approximately 360px.
 
-The automated checks were reported as passing during development but should be rerun on the final version. Final review remains open until keyboard-only interaction is verified, genuine user feedback is recorded, and the AI-decision reflection is completed.
+The latest recorded production build completed successfully. The lint result should be confirmed again after the final changes.
+
+The review is ready for final verification once keyboard-only interaction, the 0% progress bar appearance, the final automated checks, and the accuracy of the POC and MCP evidence have been confirmed.
