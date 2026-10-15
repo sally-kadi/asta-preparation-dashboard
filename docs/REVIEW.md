@@ -1,148 +1,131 @@
-# Asta's Preparation Dashboard — Review
+# REVIEW.md — Asta's Preparation Dashboard
 
 ## 1. Purpose
 
-This document records the requirements review, implementation decisions, manual testing, feedback, and remaining limitations of Asta's Preparation Dashboard.
+This document reviews the dashboard against the assignment requirements, records the checks performed, summarizes the feedback received, and identifies known limitations.
 
 ## 2. Requirements Review
 
-The dashboard contains exactly three predefined preparation tasks:
+The dashboard implements the requested minimum viable product (MVP):
 
-- Sword Control — High priority.
-- Physical Endurance — Medium priority.
-- Team Coordination — High priority.
-
-Users can mark tasks as complete or undo completion. The completed-task count and progress percentage are calculated from the current task state.
+- Three predefined preparation tasks:
+  - Sword Control — High priority
+  - Physical Endurance — Medium priority
+  - Team Coordination — High priority
+- A control to mark each task complete and undo completion.
+- A completed-task count and total-task count.
+- A calculated preparation progress percentage.
+- Clear task status labels and visual feedback.
+- A responsive layout with keyboard-operable task controls.
 
 ## 3. Decisions and Clarifications
 
-### Decision 1: Meaning of Progress
-
-**Potential ambiguity:** Progress could be misunderstood as Asta's probability of defeating Lucifero.
-
-**Decision:** Progress represents only the percentage of preparation tasks completed.
-
-**Reason:** The dashboard tracks preparation activity, not combat outcomes or victory probability.
-
-### Decision 2: Refresh Behavior
-
-**Potential ambiguity:** It was unclear whether completed tasks should remain complete after refreshing the page.
-
-**Decision:** Tasks reset to incomplete when the page is refreshed.
-
-**Reason:** Persistent storage is outside the MVP scope.
-
-### Decision 3: Task Scope
-
-**Potential ambiguity:** The dashboard could include adding, editing, or deleting tasks.
-
-**Decision:** The MVP contains exactly three predefined tasks and does not support adding, editing, or deleting tasks.
-
-**Reason:** This keeps the application focused on viewing tasks, toggling completion, and calculating progress.
+- Progress represents completed preparation tasks, not the probability of winning a battle.
+- Each task contributes equally to the progress percentage.
+- The dashboard uses React state to track completed tasks.
+- Task progress is temporary and resets when the page is refreshed.
+- Adding, editing, deleting, or saving tasks permanently is outside the MVP scope.
 
 ## 4. Automated Checks
 
-During development, the following checks were reported as passing:
+The following checks were run after the latest dashboard changes:
 
-- `npm run lint` — reported passed during development.
-- `npm run build` — production build completed successfully in the latest recorded check.
-
-The lint and build commands should be run again after the final code changes and before submission.
+- `npm run lint` — passed; no errors were reported.
+- `npm run build` — passed successfully.
+- TypeScript completed successfully during the production build.
+- Static page generation and build finalization completed successfully.
 
 ## 5. Manual Testing
 
-| Test | Expected result | Observed result |
-|---|---|---|
-| Initial page load | 0 of 3 tasks, 0% | Passed |
-| Complete one task | 1 of 3 tasks, 33% | Passed |
-| Complete all tasks | 3 of 3 tasks, 100% | Passed |
-| Undo one completed task | 2 of 3 tasks, 67% | Passed |
-| Refresh the page | Tasks reset to 0%, incomplete | Passed |
-| Toggle the same task repeatedly | Completion and progress remain consistent | Passed |
-| Keyboard-only interaction | Tasks can be toggled using the keyboard | Verify again before submission |
-| Mobile viewport around 360px | Layout remains usable without horizontal overflow | Passed |
-| Completed task visual feedback | Completed card becomes green-tinted and its title is struck through | Verified after the UI update |
-| Progress bar at 0% | Border and background remain visible | Verify visually before submission |
+The following behaviors were checked during development:
+
+- Initial progress displays 0% when no tasks are complete.
+- Completing one task updates the count and progress to approximately 33%.
+- Completing all three tasks updates progress to 100%.
+- Undoing a completed task reduces progress accordingly.
+- Repeatedly toggling a task updates its status correctly.
+- Refreshing the page resets task completion, as expected for session-only state.
+- The dashboard was checked at a mobile viewport of approximately 360px.
+- Keyboard navigation was tested by moving focus to a task button with Tab and activating it with Enter.
+- The task button changed to "Undo Completion" when the task was marked complete.
+- Completed tasks display a green highlight and strike-through title.
+- The progress bar has a visible border and background when progress is 0%.
 
 ## 6. Implementation Findings
 
-Task completion is managed using React state. The completed-task count is derived from the completed task IDs, and the progress percentage is calculated by dividing the completed-task count by the total number of tasks.
+The dashboard uses React `useState` to store the IDs of completed tasks. The completed count is derived from the state, and the incomplete count is calculated by subtracting completed tasks from the total.
 
-The percentage is rounded to a whole number. With three tasks, the progress values are 0%, 33%, 67%, and 100%.
+The progress percentage is calculated as:
 
-Completion is not stored persistently, so refreshing the page resets the tasks.
+`Math.round((completedCount / totalTasks) * 100)`
+
+The task cards, summary table, completion overview, and progress indicators use the same task state so their displayed statuses update together.
 
 ## 7. Design Review
 
-The selected visual direction is dark fantasy, using a dark background, gray surfaces, and purple accents. The interface is intended to keep task names, priorities, completion controls, and progress easy to understand on desktop and mobile.
+The interface uses a dark fantasy-inspired theme with purple accents, clear section headings, priority labels, and distinct task cards.
 
-The reviewer suggested making the progress bar more visible at 0%, providing visual feedback when tasks are completed, and improving readability.
+Visual refinements include:
 
-The progress bar was updated with a subtle border and a visible background. Completed task cards use a green-tinted style, and completed task titles use strike-through text. The task cards, summary table, and completion overview also organize information into clearer sections.
+- A visible progress-bar border and background.
+- Green styling and strike-through text for completed tasks.
+- Separate sections for preparation tasks, the summary table, and completion overview.
+- Responsive layout classes for smaller screens.
+- Visible keyboard focus styling on task controls.
 
-Design and application screenshots are maintained in `docs/evidence/`. Screenshots should be checked to ensure they show the correct design or application state before submission.
+Screenshots are stored in `docs/evidence/`, including the dashboard and design references.
 
 ## 8. User Feedback
 
-Feedback received from another person described the task-tracking feature as clear and straightforward, helping users check their progress and complete tasks without unnecessary difficulty.
+Feedback received described the task-tracking feature as clear and straightforward.
 
-The reviewer suggested three visual improvements:
+Suggestions included:
 
-- **Progress bar:** Add a subtle border or faint background fill so the bar remains visible at 0%.
-- **Interactive feedback:** Add visual feedback, such as green highlighting or strike-through text, when a task is marked complete.
-- **Readability:** Break down dense paragraphs into bullet points for quicker scanning.
+- Adding a light border or background to keep the progress bar visible at 0%.
+- Providing visual feedback when a task is completed, such as a green highlight or strike-through.
+- Breaking dense paragraphs into shorter, easier-to-scan content.
 
-### Improvements Made
-
-The progress bar now has a subtle border and a visible background. Completed task cards change to a green-tinted style, and completed task titles use strike-through text.
-
-The dashboard also presents task information through separate task cards, a summary table, and a completion overview.
+The progress-bar styling and completed-task appearance were refined in response to this feedback. The interface also uses separate cards and sections to make information easier to scan.
 
 ## 9. Reflection
 
-### What decision did the PRD help prevent?
+### Did the PRD help prevent unnecessary features?
 
-The PRD helped keep the project focused on the core requirements: three predefined tasks, completion toggles, and calculated progress. Adding unnecessary features such as login, a database, or task creation would have expanded the MVP beyond its intended scope.
+The PRD helped keep the project focused on the three required tasks, task completion controls, and calculated progress. Features such as accounts and permanent storage were kept outside the MVP.
 
 ### What did the POC test, and what did it not prove?
 
-The POC was intended to investigate a focused feasibility question before committing to the implementation. Its exact result and evidence should be checked against `POC.md`; a successful experiment does not prove that every part of the final application is correct.
+The POC was intended to investigate a focused feasibility question before committing to the implementation. The actual experiment, results, and evidence should be described in `POC.md`; this review does not claim results that are not recorded there.
 
 ### Why is the MVP useful?
 
-The MVP provides a simple way to see the three preparation tasks, mark them complete, and understand progress at a glance without unnecessary complexity.
+The MVP provides a simple way to see which preparation tasks are complete and how much of the plan remains. Its scope is small enough to test the core interaction without adding unnecessary complexity.
 
-### What was the MCP outcome?
+### What was the outcome of using MCP?
 
-The MCP outcome should match the actual connection and tool-call evidence documented in `MCP.md`. If the connection was blocked, the documented fallback should explain how development continued without claiming a successful MCP connection.
+The actual connection outcome and evidence are documented in `MCP.md`. If the connection was blocked, the review should describe the limitation and the fallback that was actually used.
 
-### What AI-generated decision did I correct or review?
+### What AI-generated decision was reviewed or corrected?
 
-I reviewed suggestions against the assignment requirements instead of accepting every suggestion automatically. I kept task completion in React state and calculated the count and percentage from that state so the displayed progress stays consistent with the selected tasks.
-
-I also used reviewer feedback to improve the progress bar's visibility and the visual feedback for completed tasks.
+The implementation was reviewed against the assignment requirements and feedback. The progress calculation, task state updates, and visual feedback were checked rather than accepted without review.
 
 ### How is progress calculated?
 
-The application divides the number of completed tasks by the total number of tasks and multiplies by 100. With three tasks, completing one gives approximately 33%, completing two gives approximately 67%, and completing all three gives 100%.
+Progress equals the number of completed tasks divided by the total number of tasks, multiplied by 100 and rounded to the nearest whole number.
 
-### What responsibility remained with me when using AI tools?
+### What responsibility remained with the developer?
 
-I remained responsible for checking the generated code, running the application, testing task completion and undo behavior, checking the mobile layout, reviewing accessibility, and verifying that the documentation accurately describes the actual implementation and test results.
+The developer remained responsible for checking the implementation, running lint and build commands, testing keyboard and mobile behavior, reviewing documentation, verifying evidence, and ensuring the final submission accurately reflects the work completed.
 
 ## 10. Known Limitations
 
 - Task completion resets when the page is refreshed.
-- The dashboard has no login, database, or persistent storage.
-- Keyboard-only interaction must be verified again before submission.
-- The progress bar's appearance at 0% must be checked visually.
-- The POC and MCP documentation must accurately reflect their actual results and evidence.
-- Feedback and reflections should describe only what actually happened during review and testing.
+- There is no login, database, or permanent task storage.
+- The dashboard uses three predefined tasks rather than allowing task management.
+- POC and MCP conclusions must match the actual experiments and evidence documented in their respective files.
 
 ## 11. Review Outcome
 
-The core dashboard behavior has been manually checked, including task completion, progress updates, repeated toggling, refresh behavior, and the mobile layout at approximately 360px.
+The production build and lint checks completed successfully during the latest recorded checks. Manual testing covered task completion, undo behavior, progress updates, refresh behavior, keyboard interaction, and mobile layout.
 
-The latest recorded production build completed successfully. The lint result should be confirmed again after the final changes.
-
-The review is ready for final verification once keyboard-only interaction, the 0% progress bar appearance, the final automated checks, and the accuracy of the POC and MCP evidence have been confirmed.
+Before submission, verify that the final `POC.md` and `MCP.md` accurately describe what happened, confirm the evidence screenshots are present, and ensure the latest documentation is pushed to the assignment branch.
