@@ -30,7 +30,7 @@ Run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open http://localhost:3000 in your browser.
 
 ## Progress Calculation
 
@@ -46,6 +46,7 @@ Progress represents preparation completion, not the probability of winning.
 ## Notes
 
 Task completion is stored in the current page session and resets when the page is refreshed.
+
 ## Documentation
 
 - [Product Requirements (PRD)](docs/PRD.md)
@@ -57,4 +58,4 @@ Task completion is stored in the current page session and resets when the page i
 
 ## Author
 
-**Sally Kadi**
+Sally Kadi
