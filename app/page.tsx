@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -124,7 +125,10 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-5 text-sm font-medium text-gray-200" aria-live="polite">
+          <p
+            className="mt-5 text-sm font-medium text-gray-200"
+            aria-live="polite"
+          >
             {completedCount} of {totalTasks} tasks completed
           </p>
 
@@ -212,6 +216,7 @@ export default function Home() {
                   >
                     {task.title}
                   </h3>
+
                   <p className="mt-2 min-h-12 text-sm leading-6 text-gray-300">
                     {task.description}
                   </p>
@@ -220,6 +225,11 @@ export default function Home() {
                     type="button"
                     onClick={() => toggleTask(task.id)}
                     aria-pressed={isCompleted}
+                    aria-label={
+                      isCompleted
+                        ? `Undo completion of ${task.title}`
+                        : `Mark ${task.title} complete`
+                    }
                     className="mt-5 min-h-11 w-full rounded-lg border border-purple-500/70 bg-purple-500/15 px-4 py-3 text-sm font-semibold text-purple-100 transition hover:bg-purple-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
                   >
                     {isCompleted ? "Undo Completion" : "Mark Complete"}
@@ -237,6 +247,7 @@ export default function Home() {
           <h2 id="summary-title" className="text-xl font-bold">
             Task Summary Table
           </h2>
+
           <p className="mt-2 text-sm text-gray-300">
             Review each preparation objective, its priority, and current status.
           </p>
@@ -245,11 +256,18 @@ export default function Home() {
             <table className="w-full min-w-[480px] border-collapse text-left text-sm">
               <thead className="bg-purple-500/20 text-purple-100">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-semibold">Task</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">Priority</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">Status</th>
+                  <th scope="col" className="px-4 py-3 font-semibold">
+                    Task
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-semibold">
+                    Priority
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-semibold">
+                    Status
+                  </th>
                 </tr>
               </thead>
+
               <tbody>
                 {initialTasks.map((task) => {
                   const isCompleted = completedTasks.includes(task.id);
@@ -259,6 +277,7 @@ export default function Home() {
                       <td className="px-4 py-3 font-medium text-gray-100">
                         {task.title}
                       </td>
+
                       <td className="px-4 py-3">
                         <span
                           className={
@@ -270,6 +289,7 @@ export default function Home() {
                           {task.priority}
                         </span>
                       </td>
+
                       <td className="px-4 py-3">
                         <span
                           className={
@@ -296,6 +316,7 @@ export default function Home() {
           <h2 id="chart-title" className="text-xl font-bold">
             Completion Overview
           </h2>
+
           <p className="mt-2 text-sm text-gray-300">
             Completed and incomplete tasks, updated automatically.
           </p>
@@ -303,11 +324,14 @@ export default function Home() {
           <div className="mt-6 space-y-5">
             <div>
               <div className="mb-2 flex items-center justify-between gap-3 text-sm">
-                <span className="font-medium text-emerald-200">Completed</span>
+                <span className="font-medium text-emerald-200">
+                  Completed
+                </span>
                 <span className="text-gray-200">
                   {completedCount} of {totalTasks}
                 </span>
               </div>
+
               <div
                 className="h-5 overflow-hidden rounded-full border border-emerald-400/40 bg-gray-800"
                 role="img"
@@ -315,18 +339,23 @@ export default function Home() {
               >
                 <div
                   className="h-full rounded-full bg-emerald-400 transition-all duration-300"
-                  style={{ width: `${(completedCount / totalTasks) * 100}%` }}
+                  style={{
+                    width: `${(completedCount / totalTasks) * 100}%`,
+                  }}
                 />
               </div>
             </div>
 
             <div>
               <div className="mb-2 flex items-center justify-between gap-3 text-sm">
-                <span className="font-medium text-amber-100">Incomplete</span>
+                <span className="font-medium text-amber-100">
+                  Incomplete
+                </span>
                 <span className="text-gray-200">
                   {incompleteCount} of {totalTasks}
                 </span>
               </div>
+
               <div
                 className="h-5 overflow-hidden rounded-full border border-amber-300/40 bg-gray-800"
                 role="img"
@@ -334,7 +363,9 @@ export default function Home() {
               >
                 <div
                   className="h-full rounded-full bg-amber-300 transition-all duration-300"
-                  style={{ width: `${(incompleteCount / totalTasks) * 100}%` }}
+                  style={{
+                    width: `${(incompleteCount / totalTasks) * 100}%`,
+                  }}
                 />
               </div>
             </div>
