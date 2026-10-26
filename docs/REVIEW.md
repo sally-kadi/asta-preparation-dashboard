@@ -1,41 +1,52 @@
-# REVIEW.md — Asta's Preparation Dashboard
+# Assignment 2 — Asta Preparation Dashboard
+# Review Report
 
 ## 1. Purpose
 
-This document reviews the dashboard against the assignment requirements, records the checks performed, summarizes user feedback, and identifies known limitations.
+This document reviews the implementation, testing, design decisions, limitations, and lessons learned during the development of the Asta Preparation Dashboard.
+
+The goal was to build a functional and responsive dashboard that allows users to track preparation tasks and monitor their completion progress.
 
 ## 2. Requirements Review
 
-The dashboard implements the requested minimum viable product (MVP):
+The dashboard includes the following MVP requirements:
 
-- Three predefined preparation tasks:
-  - Sword Control — High priority
-  - Physical Endurance — Medium priority
-  - Team Coordination — High priority
-- Controls to mark tasks complete and undo completion.
-- A completed-task count and total-task count.
-- A calculated preparation progress percentage.
-- Clear task status labels and visual feedback.
-- A responsive layout with keyboard-operable task controls.
+- Three predefined preparation tasks.
+- Task completion and undo functionality.
+- Automatic calculation of completed tasks.
+- A progress bar showing the completion percentage.
+- A task summary displaying current completion status.
+- A responsive interface for desktop and mobile screens.
 
-## 3. Decisions and Clarifications
+The core requirements were implemented and manually tested.
 
-- Progress represents completed preparation tasks, not the probability of winning a battle.
-- Each task contributes equally to the progress percentage.
-- The dashboard uses React state to track completed tasks.
-- Task progress resets when the page is refreshed.
-- Adding, editing, deleting, or permanently saving tasks is outside the MVP scope.
+## 3. Design and Implementation Decisions
+
+The dashboard uses Next.js, React, TypeScript, and Tailwind CSS.
+
+React state manages the completed tasks.
+
+The completed-task count and progress percentage are derived from the current task state rather than stored separately.
+
+The progress calculation uses:
+
+`Math.round((completedCount / totalTasks) * 100)`
+
+Each task contributes equally to the total progress.
+
+The interface uses a dark fantasy-inspired visual theme with purple accents.
 
 ## 4. Automated Checks
 
-The following results were recorded during earlier development:
+The following development checks were previously recorded as successful:
 
-- `npm run lint` — passed.
-- `npm run build` — passed.
-- TypeScript checks completed successfully during the production build.
-- Static page generation and build finalization completed successfully.
+- ESLint validation.
+- Production build.
+- TypeScript compilation through the build process.
+- Next.js upgraded to version 16.4.3.
+- Dependency audit reported zero vulnerabilities after the upgrade.
 
-These checks should be rerun after the final code changes before submission.
+These results describe previously performed checks and should be rerun after the final documentation and code changes if needed.
 
 ## 5. Manual Testing
 
@@ -57,206 +68,178 @@ The dashboard was manually tested in the local browser.
 
 All observed percentages matched the expected results.
 
-The two-task result was explicitly verified at **67%**.
+The two-task state was explicitly verified:
 
-No unexpected percentages or duplicate completion increments were observed during the dedicated test.
+**2 of 3 completed tasks = 67%.**
 
-### Previously Recorded Checks
-
-- Refreshing the page resets task completion to 0%.
-- The dashboard was checked at a mobile viewport of approximately 360px.
-- Keyboard navigation was tested using Tab and Enter.
-- Completed tasks display green highlighting and strike-through titles.
-- The progress bar remains visible at 0%.
-
-These checks were recorded during earlier development and are separate from the dedicated repeated-toggle test.
-
-## 6. Implementation Findings
-
-The dashboard uses React `useState` to store the IDs of completed tasks.
-
-The completed count is derived from the state, and the incomplete count is calculated by subtracting completed tasks from the total.
-
-The progress percentage is calculated as:
-
-`Math.round((completedCount / totalTasks) * 100)`
-
-The task cards, summary table, completion overview, and progress indicators use the same task state so their displayed statuses update together.
-
-## 7. Design Review
-
-The interface uses a dark fantasy-inspired theme with purple accents, clear section headings, priority labels, and distinct task cards.
-
-Visual refinements include:
-
-- A visible progress-bar border and background.
-- Green styling and strike-through text for completed tasks.
-- Separate sections for preparation tasks, the summary table, and completion overview.
-- Responsive layout classes for smaller screens.
-- Visible keyboard focus styling on task controls.
-
-### Design Evidence
-
-Design references and implemented dashboard screenshots are stored in `docs/evidence/`.
-
-The final review should link the exact design-reference screenshot and implemented mobile screenshot filenames rather than referring only to the folder.
-
-## 8. User Feedback
-
-### Real-Person Pilot Test
-
-**Tester:** A friend.
-
-**Testing Method:** Manual interaction with the dashboard.
-
-The tester interacted with the task-tracking feature by marking tasks complete and undoing completion.
-
-She observed the preparation progress percentage changing in response to these actions.
-
-### Understanding of Progress
-
-The tester understood that the percentage represents completed preparation tasks rather than the probability of defeating Lucifero.
-
-For example, **67% means that 2 out of 3 preparation tasks have been completed**.
-
-### UI/UX Feedback
-
-The following improvement suggestions were recorded:
-
-- **Progress Bar:** Add a subtle border or background so the progress bar remains visible at 0%.
-- **Interactive Feedback:** Use green highlights or strike-through text to make completed tasks easier to recognize.
-- **Readability:** Break dense content into shorter sections for easier scanning.
-
-### Improvements Implemented
-
-The dashboard was refined with a visible progress-bar background, green completion styling, strike-through task titles, and clearer content sections.
-
-### Pilot Outcome
-
-The tester interacted with the completion controls and correctly interpreted the progress percentage.
-
-This small pilot supports the clarity of the core task-tracking interaction but does not establish comprehensive usability or accessibility testing.
-
-## 9. Reflection
-
-### Did the PRD help prevent unnecessary features?
-
-The PRD helped keep the project focused on the three required preparation tasks, completion controls, and calculated progress.
-
-Features such as user accounts, task creation, and permanent storage were excluded from the MVP.
-
-### What did the POC test, and what did it not prove?
-
-The POC documented the core task-tracking behavior.
-
-A dedicated repeated-toggle test was performed on October 26, 2026, using the implemented dashboard.
-
-The test verified the sequence:
+The full progress sequence was:
 
 **0% → 33% → 67% → 100% → 67% → 100% → 67% → 33% → 0%**
 
-The test was performed after the dashboard implementation and should not be presented as a separate pre-build experiment.
+The test was performed after the MVP implementation.
 
-The original minimal POC or its earlier commit has not yet been identified in this review.
+### Refresh Behavior
 
-The test does not prove long-term persistence, performance under load, or comprehensive accessibility.
+Refreshing the page resets task completion to the initial state because task progress is stored only in memory.
 
-### Why is the MVP useful?
+This behavior was previously recorded as successfully tested.
 
-The MVP provides a straightforward way to track preparation objectives, identify completed tasks, and see how much work remains.
+## 6. Implementation Findings
 
-The small scope makes the core interaction easy to understand and test.
+The dashboard uses a single source of truth for task completion.
 
-### What was the outcome of using MCP?
+Completing or undoing a task updates the task state, and the progress calculation derives the updated percentage.
 
-Stitch MCP was not verified as successfully connected.
+During the dedicated repeated-toggle test:
 
-A manual design-reference fallback was used instead.
+- The completion count remained within the expected range of 0 to 3.
+- No duplicate completion increments were observed.
+- The progress percentage remained consistent with the completed-task count.
+- Undo actions correctly reduced the progress percentage.
 
-The detailed connection outcome and fallback documentation are recorded in `docs/MCP.md`.
+## 7. Design Review
 
-The manual fallback should not be represented as a successful MCP integration.
+The interface uses a dark fantasy-inspired theme with purple accents, task cards, and a progress display.
 
-### What AI-generated decision was reviewed or corrected?
+The design review focused on:
 
-The implementation and documentation were reviewed rather than accepted without verification.
+- Clear presentation of task information.
+- Readability and visual hierarchy.
+- Visibility of the progress bar, including at 0%.
+- Completed-task styling.
+- Desktop and mobile layouts.
 
-One concrete design suggestion was to add a visible background or border to the progress bar so users could identify it even at 0%.
+### Design Evidence
 
-The suggestion was evaluated against the initial-state display requirement and the dashboard's visual clarity.
+The following evidence files are available in `docs/evidence/`:
 
-The progress-bar styling was refined to make the empty state more visible.
+- Dashboard progress screenshot: `docs/evidence/dashboard-progress.png`
+- Desktop design reference: `docs/evidence/stitch-desktop.png`
+- Mobile design reference: `docs/evidence/stitch-mobile.png`
 
-This is an example of reviewing a design suggestion and applying a change based on the project's requirements.
+These files provide visual references for reviewing the dashboard interface and design direction.
 
-The source of the suggestion should be identified as AI-generated only if it was actually proposed by an AI tool.
+The additional file `stitch-desktop.pn` was found in the evidence directory, but its format and purpose have not yet been verified, so it is not used as a design reference here.
 
-### How is progress calculated?
+## 8. User Feedback
 
-Progress is calculated by dividing the number of completed tasks by the total number of tasks, multiplying by 100, and rounding to the nearest whole number.
+A friend reviewed a screenshot of the dashboard and provided visual feedback.
 
-For three tasks:
+The suggestions included:
 
-- 0 completed = 0%
-- 1 completed = 33%
-- 2 completed = 67%
-- 3 completed = 100%
+1. Make the progress bar visible even when progress is 0%.
+2. Use green text or a strikethrough style to distinguish completed tasks.
+3. Split dense text into smaller sections to improve readability.
 
-### What responsibility remained with the developer?
+This feedback was based on a screenshot review.
 
-The developer remained responsible for:
+An attempt was made to share the deployed website for interactive testing, but the friend could not open the site.
 
-- Reviewing implementation decisions.
-- Verifying progress calculations.
-- Testing completion and undo functionality.
-- Running lint and production build checks.
-- Testing keyboard and mobile behavior.
-- Reviewing AI-assisted suggestions.
-- Recording actual evidence.
-- Ensuring the final submission accurately reflects the work completed.
+Therefore, a complete real-person interactive pilot has not yet been documented.
+
+The feedback should not be represented as evidence that another person tested the Complete and Undo controls.
+
+## 9. Reflection
+
+### Requirements and Scope
+
+The PRD helped define a focused MVP with three tasks, completion controls, and automatically calculated progress.
+
+Keeping the scope limited made the main interaction easier to implement and test.
+
+### POC Timeline and Verification
+
+The initial dashboard implementation and POC documentation were committed together on October 11, 2026.
+
+**Initial implementation commit:** `6bf7e67` — Build Asta preparation dashboard.
+
+This commit includes the original POC plan and the initial implementation of task completion, undo functionality, and progress calculation.
+
+However, it does not establish a separately tested pre-MVP prototype.
+
+A dedicated repeated-toggle test was performed on October 26, 2026, after implementation.
+
+All observed progress values matched the expected results, including **2 of 3 = 67%**.
+
+The full test sequence is also documented in `docs/POC.md`.
+
+### Design Tool Reflection
+
+The project documentation records a Stitch MCP fallback.
+
+The design process continued using available references and manual implementation rather than claiming an unavailable MCP integration was successfully completed.
+
+Further details are documented in `docs/MCP.md`.
+
+### AI-Assisted Development Reflection
+
+AI assistance was used during development and review to help examine implementation and design considerations.
+
+One concrete review suggestion was to make the progress indicator visible when completion was 0%.
+
+This suggestion was evaluated against the dashboard's expected initial state.
+
+AI suggestions were not treated as automatic proof of correctness. The actual completion and undo behavior was verified through manual browser testing.
+
+### Lessons Learned
+
+This project reinforced the importance of:
+
+- Keeping state management simple.
+- Deriving progress from task completion state.
+- Testing repeated user interactions.
+- Recording expected and observed results.
+- Separating screenshot feedback from interactive user testing.
+- Maintaining consistency between implementation, documentation, and Git history.
 
 ## 10. Accessibility Review
 
-Task controls can be operated using a keyboard.
+The task buttons include task-specific accessible names.
 
-Earlier testing recorded successful Tab navigation and Enter activation.
+The button implementation uses:
 
-However, repeated buttons must also have accessible names that identify the associated task.
+```tsx
+<button
+  type="button"
+  onClick={() => toggleTask(task.id)}
+  aria-pressed={isCompleted}
+  aria-label={
+    isCompleted
+      ? `Undo completion of ${task.title}`
+      : `Mark ${task.title} complete`
+  }
+>
+  {isCompleted ? "Undo Completion" : "Mark Complete"}
+</button>
+```
 
-For example:
+The accessible label identifies the relevant task, while `aria-pressed` communicates its current completion state.
 
-- Mark Sword Control complete
-- Mark Physical Endurance complete
-- Mark Team Coordination complete
-- Undo completion of Sword Control
+The buttons also include visible keyboard focus styling.
 
-This task-specific accessible naming requirement must be checked in the implementation before final submission.
+These implementation details were checked in the code. A comprehensive screen-reader accessibility test has not yet been documented.
 
 ## 11. Known Limitations
 
-- Task completion resets when the page is refreshed.
-- There is no login, database, or permanent task storage.
-- The dashboard uses three predefined tasks rather than allowing users to create or edit tasks.
-- The dedicated repeated-toggle test was performed after implementation.
-- The original minimal POC or corresponding earlier commit has not yet been identified.
-- Exact design and mobile evidence filenames still need to be linked.
-- Task-specific accessible button names require code verification.
+- Task progress resets after refreshing the page.
+- Tasks cannot be added, edited, or deleted by users.
+- No database or persistent storage is included.
+- A complete external interactive user pilot has not yet been documented.
+- The initial POC was not independently validated before the MVP implementation.
+- Comprehensive accessibility testing remains outside the recorded test evidence.
 
-## 12. Review Outcome
+## 12. Final Review Outcome
 
-The core task-tracking functionality passed the dedicated manual repeated-toggle test on October 26, 2026.
+The core dashboard functionality was implemented and manually tested.
 
-The two-task state was explicitly verified at **2 of 3 tasks completed (67%)**.
+The dedicated repeated-toggle test passed, confirming the expected progress values of 0%, 33%, 67%, and 100%.
 
-A friend also tested the completion controls and understood the progress percentage as preparation completion rather than battle victory probability.
+The original POC plan and initial implementation were identified in Git commit `6bf7e67`, while the later verification test was accurately documented as post-implementation testing.
 
-Earlier lint, build, keyboard, mobile, and refresh checks were recorded.
+Task-specific accessible button labels were confirmed in the implementation.
 
-### Remaining Submission Checks
+Design evidence filenames were identified and linked in this review.
 
-- Identify the original minimal POC or its earlier commit, if available.
-- Verify and implement task-specific accessible button names.
-- Add exact design-reference and implemented mobile evidence links.
-- Rerun `npm run lint` and `npm run build` after final code changes.
-- Confirm `POC.md`, `REVIEW.md`, and `MCP.md` are consistent.
-- Commit and push the final changes to `assignment-2-asta-mvp`.
+The remaining work before final submission is to rerun final project checks, confirm the latest changes are committed and pushed, and clearly communicate the incomplete external interactive pilot.
+
+**Overall Status:** Core MVP implementation and documented manual functionality tests passed, with the limitations above remaining clearly identified.

@@ -1,18 +1,21 @@
 # Proof of Concept (POC)
 
-## Objective
+## 1. Objective
 
-Verify that the core task-tracking interaction works correctly and document the results of manual browser testing.
+The purpose of this document is to verify that the main task-tracking functionality works correctly.
 
-## Core Features to Test
+The dashboard allows users to complete preparation tasks, undo completed tasks, and track their progress through an automatically updated percentage.
+
+## 2. Core Features to Test
 
 1. Display exactly three predefined preparation tasks.
-2. Allow the user to mark a task as complete.
-3. Allow the user to undo completion and return a task to incomplete.
-4. Calculate the completed-task count and percentage from the task states.
-5. Keep the count between zero and three.
+2. Allow users to mark tasks as complete.
+3. Allow users to undo task completion.
+4. Automatically calculate the completed-task count and progress percentage.
+5. Keep the completed-task count between 0 and 3.
+6. Ensure repeated Complete and Undo actions produce consistent results.
 
-## Initial Task Data
+## 3. Initial Task Data
 
 All three tasks start as incomplete.
 
@@ -22,92 +25,111 @@ All three tasks start as incomplete.
 | Physical Endurance | Medium | Incomplete |
 | Team Coordination | High | Incomplete |
 
-## Expected Results
+## 4. Expected Results
 
-| Completed Tasks | Progress Percentage | Expected Status |
-|---|---:|---|
-| 0 of 3 | 0% | Incomplete |
-| 1 of 3 | 33% | In Progress |
-| 2 of 3 | 67% | In Progress |
-| 3 of 3 | 100% | Complete |
-| Undo one task after reaching 3 of 3 | 67% | In Progress |
+| Completed Tasks | Expected Progress |
+|---|---|
+| 0 of 3 | 0% |
+| 1 of 3 | 33% |
+| 2 of 3 | 67% |
+| 3 of 3 | 100% |
+| Undo one completed task from 3 of 3 | 67% |
 
-## Test Procedure
+The progress percentage represents completed preparation tasks, not the probability of winning a battle.
 
-1. Open the dashboard and verify that all three tasks are incomplete.
-2. Confirm that the progress count is 0 of 3 and the percentage is 0%.
-3. Mark one task complete and verify that the percentage becomes 33%.
-4. Mark a second task complete and verify that the percentage becomes 67%.
-5. Mark the final task complete and verify that the percentage becomes 100%.
-6. Undo one task and verify that the percentage returns to 67%.
-7. Toggle tasks repeatedly and verify that the count and percentage remain consistent.
-8. Refresh the page and verify that all tasks reset to incomplete.
+## 5. Implementation Approach
 
-## Implementation Principle
+I used React state to manage completed tasks.
 
-Task completion state is the single source of truth. The completed-task count and percentage are calculated from the current task states rather than maintained as separate, manually updated values.
+The completed-task count and percentage are calculated from the current task state rather than being updated separately.
 
-The percentage is calculated as:
+The calculation is:
 
-`Math.round((completedTasks / totalTasks) * 100)`
+`Math.round((completedCount / totalTasks) * 100)`
 
-## Actual Test Results
+This approach helps keep the task cards, summary table, and progress bar consistent.
+
+Permanent storage was not included because it is outside the MVP requirements.
+
+## 6. Manual Testing
 
 The dashboard was manually tested in the local browser.
 
-| Test | Expected Result | Observed Result |
-|---|---|---|
-| Initial page load | 0 of 3, 0% | Passed — 0% displayed |
-| Complete one task | 1 of 3, 33% | Passed — 33% displayed |
-| Complete two tasks | 2 of 3, 67% | Passed — 67% displayed |
-| Complete all three tasks | 3 of 3, 100% | Passed — 100% displayed |
-| Undo one completed task | 2 of 3, 67% | Passed — 67% displayed |
-| Refresh the page | All tasks reset to incomplete, 0% | Previously recorded as passed |
+### Dedicated Repeated-Toggle Test — October 26, 2026
 
-### Dedicated Repeated-Toggle Test
-
-A dedicated manual test was performed on October 26, 2026.
+I performed a dedicated test to verify that completing and undoing tasks repeatedly updates the progress correctly.
 
 | Action | Expected Progress | Actual Progress | Result |
 |---|---|---|---|
-| Initial state | 0/3 — 0% | 0% | Passed |
-| Complete Sword Control | 1/3 — 33% | 33% | Passed |
-| Complete Physical Endurance | 2/3 — 67% | 67% | Passed |
-| Complete Team Coordination | 3/3 — 100% | 100% | Passed |
-| Undo Sword Control | 2/3 — 67% | 67% | Passed |
-| Complete Sword Control again | 3/3 — 100% | 100% | Passed |
-| Undo Physical Endurance | 2/3 — 67% | 67% | Passed |
-| Undo Team Coordination | 1/3 — 33% | 33% | Passed |
-| Undo Sword Control | 0/3 — 0% | 0% | Passed |
+| Initial state | 0 of 3 — 0% | 0% | Passed |
+| Complete Sword Control | 1 of 3 — 33% | 33% | Passed |
+| Complete Physical Endurance | 2 of 3 — 67% | 67% | Passed |
+| Complete Team Coordination | 3 of 3 — 100% | 100% | Passed |
+| Undo Sword Control | 2 of 3 — 67% | 67% | Passed |
+| Complete Sword Control again | 3 of 3 — 100% | 100% | Passed |
+| Undo Physical Endurance | 2 of 3 — 67% | 67% | Passed |
+| Undo Team Coordination | 1 of 3 — 33% | 33% | Passed |
+| Undo Sword Control | 0 of 3 — 0% | 0% | Passed |
 
-### Additional Checks
+### Test Results
 
-- **Repeated toggling:** Passed. All observed percentages matched the expected values throughout the dedicated sequence.
-- **Two-task progress:** Explicitly verified at 2 of 3 tasks completed, displaying 67%.
-- **State consistency:** No unexpected percentages or duplicate completion increments were observed in the tested sequence.
-- **Refresh behavior:** Previously recorded as passed; task state resets because it is not persisted.
-- **Implementation decision:** Keep the MVP simple using in-memory React state, as persistent storage is outside the project scope.
+All observed percentages matched the expected values.
 
-## POC Timeline
+The two-task result was explicitly verified:
 
-The dedicated repeated-toggle verification was performed on October 26, 2026, using the implemented dashboard.
+**2 out of 3 completed tasks = 67%.**
 
-This test documents post-implementation verification. It should not be represented as a separate pre-build experiment.
-
-The original minimal POC or its corresponding commit should be identified separately if available.
-
-## Evidence
-
-Screenshots of the working dashboard and design iterations are stored in `docs/evidence/`. Individual evidence files should be linked explicitly in the review documentation.
-
-## Conclusion
-
-The main completion, undo, progress calculation, and refresh-reset behaviors were recorded as manually tested.
-
-The dedicated repeated-toggle test passed, including the explicitly verified two-task result of 67%.
-
-The observed progress sequence was:
+The complete progress sequence was:
 
 **0% → 33% → 67% → 100% → 67% → 100% → 67% → 33% → 0%**
 
-**Status:** Core manual tests and dedicated repeated-toggle verification passed.
+No unexpected percentages or duplicate completion increments were observed during this test.
+
+## 7. Additional Checks
+
+The following checks were recorded during development:
+
+- **Task completion:** Passed.
+- **Undo functionality:** Passed.
+- **Progress calculation:** Passed.
+- **Repeated toggling:** Passed.
+- **Refresh behavior:** Previously tested successfully. Refreshing resets task completion to 0%.
+- **State consistency:** The progress bar and task summary use the same task state.
+
+## 8. POC Timeline and Clarification
+
+The earliest dashboard implementation and POC documentation were committed together on October 11, 2026.
+
+**Initial implementation commit:** `6bf7e67` — Build Asta preparation dashboard.
+
+This commit includes the initial dashboard code in `app/page.tsx` and the original POC documentation in `docs/POC.md`.
+
+The initial implementation already contained the three predefined tasks, React state management, task-toggle logic, and progress calculation.
+
+Therefore, this commit provides evidence of the initial implementation and POC plan, but it should not be described as a separate, independently validated pre-MVP prototype.
+
+A dedicated repeated-toggle test was subsequently performed on October 26, 2026, after implementation.
+
+The test confirmed the expected progress values of 0%, 33%, 67%, and 100%, including repeated completion and undo actions.
+
+## 9. Evidence
+
+Dashboard screenshots and design references are stored in:
+
+`docs/evidence/`
+
+The exact evidence filenames still need to be checked and linked in the review documentation.
+
+The manual testing results are also documented in `REVIEW.md`.
+
+## 10. Conclusion
+
+The core task-tracking functionality passed the recorded manual tests.
+
+Users can complete tasks, undo completion, and view updated progress percentages.
+
+The dedicated repeated-toggle test confirmed that the percentage changes correctly throughout the full sequence.
+
+The result **2 of 3 = 67%** was explicitly verified.
+
+**Final Status:** Core functionality and dedicated repeated-toggle testing passed. The original minimal POC remains to be identified separately.
